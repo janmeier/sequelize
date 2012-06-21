@@ -349,12 +349,8 @@ describe('HasMany', function() {
       Company.hasMany(User, {as: 'Users', foreignKey: 'company_id', joinTableName: 'CompanyAccess'})
 
       Helpers.async(function(done) {
-      
-      })
-      Helpers.async(function(done) {
 
         var companies = []
-
       CompanyAccess.sync({force: true}).success(function() {
         User.sync({force: true}).success(function() {
           Company.sync({force: true}).success(function() {
