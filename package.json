@@ -1,12 +1,21 @@
 {
   "name": "sequelize",
   "description": "Multi dialect ORM for Node.JS",
-  "version": "1.4.7",
+  "version": "1.5.0-alpha",
   "author": "Sascha Depold <sascha@depold.com>",
   "contributors": [
-    { "name": "Sascha Depold", "email": "sascha@depold.com" },
-    { "name": "Meg Sharkey", "email": "meg@metamarkets.com" },
-    { "name": "Chase Geigle", "email": "sky@skytrife.com" }
+    {
+      "name": "Sascha Depold",
+      "email": "sascha@depold.com"
+    },
+    {
+      "name": "Meg Sharkey",
+      "email": "meg@metamarkets.com"
+    },
+    {
+      "name": "Chase Geigle",
+      "email": "sky@skytrife.com"
+    }
   ],
   "dependencies": {
     "mysql": "0.9.x",
@@ -15,16 +24,21 @@
     "lingo": "0.0.x",
     "validator": "0.3.x",
     "moment": "1.1.x",
-    "commander": "0.5.x",
+    "commander": "~0.6.0",
     "generic-pool": "1.0.9"
   },
   "devDependencies": {
     "jasmine-node": "1.0.22",
     "sqlite3": ">=2.0.0",
     "pg": "0.6.x",
-    "buster": "0.5.1"
+    "buster": "~0.6.0"
   },
-  "keywords": ["mysql", "orm", "nodejs", "object relational mapper"],
+  "keywords": [
+    "mysql",
+    "orm",
+    "nodejs",
+    "object relational mapper"
+  ],
   "main": "index",
   "scripts": {
     "test": "npm run test-jasmine && npm run test-buster",
@@ -39,4 +53,3 @@
   },
   "license": "MIT"
 }
-

@@ -1,11 +1,9 @@
 before_script:
   - "mysql -e 'create database sequelize_test;'"
   - "psql -c 'create database sequelize_test;' -U postgres"
-  - "npm install"
 
 script:
-  - "node_modules/.bin/jasmine-node spec-jasmine"
-  - "node_modules/.bin/buster test"
+  - "npm test"
 
 notifications:
   email:
@@ -18,5 +16,5 @@ language: node_js
 
 node_js:
   - 0.6
-
+  - 0.8
 

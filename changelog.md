@@ -1,8 +1,17 @@
 # v1.5.0 #
-- [FEATURE] added possibility to set protocol and to remove port from postgresql connection uri (thanks to danielschwartz)
 - [REFACTORING] use underscore functions for Utils.isHash (thanks to Mick-Hansen)
+- [REFACTORING] removed the 'failure' event and replaced it with 'error'
 - [BUG] fixed booleans for sqlite (thanks to vlmonk)
+- [BUG] obsolete reference attribute for many-to-many associations are removed correctly
+- [FEATURE] added possibility to set protocol and to remove port from postgresql connection uri (thanks to danielschwartz)
 - [FEATURE] added possibility to not use a junction table for many-to-many associations on the same table (thanks to innofluence)
+- [FEATURE] results of the `import` method is now cached (thanks to janmeier)
+- [FEATURE] added possibility to check if a specific object or a whole bunch of objects is currently associated with another object (thanks to janmeier)
+- [FEATURE] added possibility to globally disable adding of NULL values to sql queries (thanks to janmeier)
+- [FEATURE] Model.create can now also be used to specify values for mass assignment (thanks to janmeier)
+- [FEATURE] QueryChainer will now provide the results of the added emitters in the order the emitters have been added (thanks to LaurentZuijdwijk and me ;))
+- [FEATURE] QueryChainer can now be initialized with serial items
+- [FEATURE] node 0.8 compatibility
 
 # v1.4.1 #
 - [DEPRECATION] Added deprecation warning for node < v0.6.
