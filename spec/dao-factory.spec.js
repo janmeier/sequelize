@@ -1,7 +1,7 @@
 if(typeof require === 'function') {
   const buster    = require("buster")
       , Sequelize = require("../index")
-      , config    = require("./config/config")
+      , Helpers   = require('./buster-helpers')
       , dialects  = ['sqlite', 'mysql', 'postgres']
 }
 
@@ -12,32 +12,24 @@ dialects.forEach(function(dialect) {
     before(function(done) {
       var self = this
 
-      this.sequelize = new Sequelize(config.database, config.username, config.password, { logging: false })
-      this.sequelize
-        .getQueryInterface()
-        .dropAllTables()
-        .success(function() {
-          self.sequelize.daoFactoryManager.daos = []
-          done()
-        })
-        .error(function(err) { console.log(err) })
+      Helpers.initTests({
+        dialect: dialect,
+        beforeComplete: function(sequelize, DataTypes) {
+          self.sequelize = sequelize
+          self.User      = sequelize.define('User', {
+            username: DataTypes.STRING,
+            secretValue: DataTypes.STRING,
+            data: DataTypes.STRING
+          })
+        },
+        onComplete: function(sequelize) {
+          self.User.sync({ force: true }).success(done)
+        }
+      })
     })
 
     describe('create', function() {
-      before(function(done) {
-        this.User = this.sequelize.define('User', {
-          username: Sequelize.STRING,
-          secretValue: Sequelize.STRING,
-          data: Sequelize.STRING
-        })
-
-        this.User
-          .sync({ force: true })
-          .success(done)
-          .error(function(err) { console.log(err) })
-      })
-
-      it('should only store the values passed in the witelist', function(done) {
+      it('=>should only store the values passed in the witelist', function(done) {
         var self = this
           , data = { username: 'Peter', secretValue: '42' }
 

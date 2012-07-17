@@ -20,7 +20,8 @@ module.exports = {
     database: 'sequelize_test',
     username: "postgres",
     password: 'abc',
-    port: 5432
+    port: 5432,
+    pool: { maxConnections: 5, maxIdleTime: 30}
   }
 }
 

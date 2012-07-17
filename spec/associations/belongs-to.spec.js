@@ -1,24 +1,30 @@
 if (typeof require === 'function') {
   const buster    = require("buster")
-      , Sequelize = require("../../index")
-      , config    = require("../config/config")
-      , sequelize = new Sequelize(config.database, config.username, config.password, {
-          logging: false
-        })
+      , Helpers   = require('../buster-helpers')
+      , Sequelize = require('../../index')
 }
 
 buster.spec.expose()
 buster.testRunner.timeout = 500
 
 describe('BelongsTo', function() {
+  before(function(done) {
+    var self = this
+
+    Helpers.initTests({
+      beforeComplete: function(sequelize) { self.sequelize = sequelize },
+      onComplete: done
+    })
+  })
+
   describe('setAssociation', function() {
     it('clears the association if null is passed', function(done) {
-      var User = sequelize.define('User', { username: Sequelize.STRING })
-        , Task = sequelize.define('Task', { title: Sequelize.STRING })
+      var User = this.sequelize.define('User', { username: Sequelize.STRING })
+        , Task = this.sequelize.define('Task', { title: Sequelize.STRING })
 
       Task.belongsTo(User)
 
-      sequelize.sync({ force: true }).success(function() {
+      this.sequelize.sync({ force: true }).success(function() {
         User.create({ username: 'foo' }).success(function(user) {
           Task.create({ title: 'task' }).success(function(task) {
             task.setUser(user).success(function() {
