@@ -1,7 +1,7 @@
 {
   "name": "sequelize",
   "description": "Multi dialect ORM for Node.JS",
-  "version": "1.5.0",
+  "version": "1.6.0-alpha-2",
   "author": "Sascha Depold <sascha@depold.com>",
   "contributors": [
     {
@@ -22,12 +22,12 @@
     }
   ],
   "dependencies": {
-    "mysql": "0.9.x",
-    "underscore": "1.2.x",
-    "underscore.string": "2.0.x",
-    "lingo": "0.0.x",
+    "mysql": "~2.0.0-alpha3",
+    "underscore": "~1.4.0",
+    "underscore.string": "~2.3.0",
+    "lingo": "~0.0.5",
     "validator": "0.3.x",
-    "moment": "1.1.x",
+    "moment": "~1.7.0",
     "commander": "~0.6.0",
     "generic-pool": "1.0.9"
   },
@@ -35,7 +35,8 @@
     "jasmine-node": "1.0.17",
     "sqlite3": "~2.1.5",
     "pg": "0.6.x",
-    "buster": "~0.6.0"
+    "buster": "~0.6.0",
+    "dox-foundation": "~0.3.0"
   },
   "keywords": [
     "mysql",
@@ -47,7 +48,8 @@
   "scripts": {
     "test": "npm run test-jasmine && npm run test-buster",
     "test-jasmine": "./node_modules/.bin/jasmine-node spec-jasmine/",
-    "test-buster": "./node_modules/.bin/buster-test"
+    "test-buster": "./node_modules/.bin/buster-test",
+    "generate-docs": "node_modules/.bin/dox-foundation --source ./lib --title Sequelize"
   },
   "bin": {
     "sequelize": "bin/sequelize"
