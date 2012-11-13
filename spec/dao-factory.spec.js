@@ -86,7 +86,7 @@ describe("[" + dialect.toUpperCase() + "] DAOFactory", function() {
       })
       expect(Task.build().title).toEqual('a task!')
       expect(Task.build().foo).toEqual(2)
-      expect(Task.build().bar).toEqual(null)
+      expect(Task.build().bar).toEqual(undefined)
       expect(Task.build().foobar).toEqual('asd')
       expect(Task.build().flag).toEqual(false)
     })
@@ -293,6 +293,15 @@ describe("[" + dialect.toUpperCase() + "] DAOFactory", function() {
 
     it('returns a single dao', function(done) {
       this.User.find(this.user.id).success(function(user) {
+        expect(Array.isArray(user)).toBeFalsy()
+        expect(user.id).toEqual(this.user.id)
+        expect(user.id).toEqual(1)
+        done()
+      }.bind(this))
+    })
+
+    it('returns a single dao given a string id', function(done) {
+      this.User.find(this.user.id + '').success(function(user) {
         expect(Array.isArray(user)).toBeFalsy()
         expect(user.id).toEqual(this.user.id)
         expect(user.id).toEqual(1)
