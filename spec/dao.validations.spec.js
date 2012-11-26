@@ -6,9 +6,8 @@ if(typeof require === 'function') {
 }
 
 buster.spec.expose()
-buster.timeout = 500;
 
-describe("[" + dialect.toUpperCase() + "] DAO", function() {
+describe("[" + Helpers.getTestDialectTeaser() + "] DAO", function() {
   describe('validations', function() {
     before(function(done) {
       Helpers.initTests({
