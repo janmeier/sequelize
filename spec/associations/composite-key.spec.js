@@ -143,7 +143,7 @@ describe('Composite keys', function() {
       })
       
       this.Label.hasMany(this.Article, {foreignKey: "label_id", joinTableName: "item_label" });
-      this.Article.hasMany(this.Label, {foreignKey:{ "item_id": "id", "item": { type: Sequelize.STRING, key: "item_key" } }, joinTableName: "item_label" });
+      this.Article.hasMany(this.Label, {foreignKey:{ "item_id": "id", "item": "item_key" }, joinTableName: "item_label" });
       
       this.Article.sync({ force: true }).success(function() {
         self.Label.sync({ force: true }).success(done).error(function(err) {
@@ -166,8 +166,8 @@ describe('Composite keys', function() {
           expect(dao.attributes.label_id).toBeDefined()
           expect(dao.attributes.item_id).toBeDefined()
           expect(dao.attributes.item).toBeDefined()
-          done()
         })
+        done()
       })
     }),
     
