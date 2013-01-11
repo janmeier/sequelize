@@ -7,7 +7,7 @@ if(typeof require === 'function') {
 
 buster.spec.expose()
 
-describe("[" + Helpers.getTestDialectTeaser() + "] DAOFactory", function() {
+describe(Helpers.getTestDialectTeaser("DAOFactory"), function() {
   before(function(done) {
     Helpers.initTests({
       dialect: dialect,
@@ -201,6 +201,33 @@ describe("[" + Helpers.getTestDialectTeaser() + "] DAOFactory", function() {
               done()
             })
           })
+        })
+      })
+    })
+
+    it('raises an error if you mess up the datatype', function(done)  {
+
+      try {
+        var User = this.sequelize.define('UserBadDataType', {
+          activity_date: Sequelize.DATe
+        });
+        done()
+      }
+      catch( e ) { 
+        expect(e.message).toEqual('Unrecognized data type for field activity_date')
+        done()
+      }
+    })
+
+    it('sets a 64 bit int in bigint', function(done) {
+      var User = this.sequelize.define('UserWithBigIntFields', {
+        big: Sequelize.BIGINT
+      })
+
+      User.sync({ force: true }).success(function() {
+        User.create({ big: '9223372036854775807' }).on('success', function(user) {
+          expect(user.big).toEqual( '9223372036854775807' )
+          done()
         })
       })
     })
