@@ -21,13 +21,21 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
           aNumber:   { type: DataTypes.INTEGER },
           bNumber:   { type: DataTypes.INTEGER }
         })
+
+        self.HistoryLog = sequelize.define('HistoryLog', {
+          someText:  { type: DataTypes.STRING },
+          aNumber:   { type: DataTypes.INTEGER },
+          aRandomId: { type: DataTypes.INTEGER }
+        })
       },
       onComplete: function() {
-        self.User.sync({ force: true }).success(done)
+        self.User.sync({ force: true }).success(function(){
+          self.HistoryLog.sync({ force: true }).success(done)
+        })
       }
     })
   })
-
+/*
   describe('increment', function () {
     before(function (done) {
       this.User.create({ id: 1, aNumber: 0, bNumber: 0 }).done(done)
@@ -249,6 +257,15 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
         done()
       })
     })
+
+    it('saves a record with no primary key', function(done){
+      this.HistoryLog.create({ someText: 'Some random text', aNumber: 3, aRandomId: 5 }).success(function(log) {
+        log.updateAttributes({ aNumber: 5 }).success(function(newLog){
+          expect(newLog.aNumber).toEqual(5)
+          done()
+        })
+      })
+    })
   })
 
   describe('toJSON', function toJSON() {
@@ -280,38 +297,59 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
       expect(JSON.parse(JSON.stringify(user))).toEqual({ username: 'test.user', age: 99, isAdmin: true, id: null })
     })
   })
+  */
 
   describe('findAll', function findAll() {
-    it("escapes a single single quotes properly in where clauses", function(done) {
-      var self = this
+    // it("escapes a single single quotes properly in where clauses", function(done) {
+    //   var self = this
 
-      this.User
-        .create({ username: "user'name" })
-        .success(function() {
-          self.User.findAll({
-            where: { username: "user'name" }
-          }).success(function(users) {
-            expect(users.length).toEqual(1)
-            expect(users[0].username).toEqual("user'name")
-            done()
-          })
-        })
-    })
+    //   this.User
+    //     .create({ username: "user'name" })
+    //     .success(function() {
+    //       self.User.findAll({
+    //         where: { username: "user'name" }
+    //       }).success(function(users) {
+    //         expect(users.length).toEqual(1)
+    //         expect(users[0].username).toEqual("user'name")
+    //         done()
+    //       })
+    //     })
+    // })
 
-    it("escapes two single quotes properly in where clauses", function(done) {
-      var self = this
+    // it("escapes two single quotes properly in where clauses", function(done) {
+    //   var self = this
 
-      this.User
-        .create({ username: "user''name" })
-        .success(function() {
-          self.User.findAll({
-            where: { username: "user''name" }
-          }).success(function(users) {
-            expect(users.length).toEqual(1)
-            expect(users[0].username).toEqual("user''name")
-            done()
-          })
-        })
+    //   this.User
+    //     .create({ username: "user''name" })
+    //     .success(function() {
+    //       self.User.findAll({
+    //         where: { username: "user''name" }
+    //       }).success(function(users) {
+    //         expect(users.length).toEqual(1)
+    //         expect(users[0].username).toEqual("user''name")
+    //         done()
+    //       })
+    //     })
+    // })
+
+    // it("returns the timestamps if no attributes have been specified", function(done) {
+    //   this.User.create({ username: 'fnord' }).success(function() {
+    //     this.User.findAll().success(function(users) {
+    //       expect(users[0].createdAt).toBeDefined()
+    //       done()
+    //     }.bind(this))
+    //   }.bind(this))
+    // })
+
+    it("does not return the timestamps if the username attribute has been specified", function(done) {
+      this.User.create({ username: 'fnord' }).success(function() {
+        this.User.findAll({ attributes: ['username'] }).success(function(users) {
+          expect(users[0].createdAt).not.toBeDefined()
+          expect(users[0].username).toBeDefined()
+
+          done()
+        }.bind(this))
+      }.bind(this))
     })
   })
 })
