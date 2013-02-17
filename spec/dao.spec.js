@@ -35,7 +35,7 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
       }
     })
   })
-/*
+
   describe('increment', function () {
     before(function (done) {
       this.User.create({ id: 1, aNumber: 0, bNumber: 0 }).done(done)
@@ -297,49 +297,48 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
       expect(JSON.parse(JSON.stringify(user))).toEqual({ username: 'test.user', age: 99, isAdmin: true, id: null })
     })
   })
-  */
 
   describe('findAll', function findAll() {
-    // it("escapes a single single quotes properly in where clauses", function(done) {
-    //   var self = this
+    it("escapes a single single quotes properly in where clauses", function(done) {
+      var self = this
 
-    //   this.User
-    //     .create({ username: "user'name" })
-    //     .success(function() {
-    //       self.User.findAll({
-    //         where: { username: "user'name" }
-    //       }).success(function(users) {
-    //         expect(users.length).toEqual(1)
-    //         expect(users[0].username).toEqual("user'name")
-    //         done()
-    //       })
-    //     })
-    // })
+      this.User
+        .create({ username: "user'name" })
+        .success(function() {
+          self.User.findAll({
+            where: { username: "user'name" }
+          }).success(function(users) {
+            expect(users.length).toEqual(1)
+            expect(users[0].username).toEqual("user'name")
+            done()
+          })
+        })
+    })
 
-    // it("escapes two single quotes properly in where clauses", function(done) {
-    //   var self = this
+    it("escapes two single quotes properly in where clauses", function(done) {
+      var self = this
 
-    //   this.User
-    //     .create({ username: "user''name" })
-    //     .success(function() {
-    //       self.User.findAll({
-    //         where: { username: "user''name" }
-    //       }).success(function(users) {
-    //         expect(users.length).toEqual(1)
-    //         expect(users[0].username).toEqual("user''name")
-    //         done()
-    //       })
-    //     })
-    // })
+      this.User
+        .create({ username: "user''name" })
+        .success(function() {
+          self.User.findAll({
+            where: { username: "user''name" }
+          }).success(function(users) {
+            expect(users.length).toEqual(1)
+            expect(users[0].username).toEqual("user''name")
+            done()
+          })
+        })
+    })
 
-    // it("returns the timestamps if no attributes have been specified", function(done) {
-    //   this.User.create({ username: 'fnord' }).success(function() {
-    //     this.User.findAll().success(function(users) {
-    //       expect(users[0].createdAt).toBeDefined()
-    //       done()
-    //     }.bind(this))
-    //   }.bind(this))
-    // })
+    it("returns the timestamps if no attributes have been specified", function(done) {
+      this.User.create({ username: 'fnord' }).success(function() {
+        this.User.findAll().success(function(users) {
+          expect(users[0].createdAt).toBeDefined()
+          done()
+        }.bind(this))
+      }.bind(this))
+    })
 
     it("does not return the timestamps if the username attribute has been specified", function(done) {
       this.User.create({ username: 'fnord' }).success(function() {
