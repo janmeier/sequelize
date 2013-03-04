@@ -1,4 +1,4 @@
-if(typeof require === 'function') {
+if (typeof require === 'function') {
   const buster  = require("buster")
       , Helpers = require('./buster-helpers')
       , dialect = Helpers.getTestDialect()
@@ -347,6 +347,38 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
           expect(users[0].username).toBeDefined()
 
           done()
+        }.bind(this))
+      }.bind(this))
+    })
+
+    it("can reuse query option objects", function(done) {
+      this.User.create({ username: 'fnord' }).success(function() {
+        var query = { where: { username: 'fnord' }}
+
+        this.User.findAll(query).success(function(users) {
+          expect(users[0].username).toEqual('fnord')
+
+          this.User.findAll(query).success(function(users) {
+            expect(users[0].username).toEqual('fnord')
+            done()
+          }.bind(this))
+        }.bind(this))
+      }.bind(this))
+    })
+  })
+
+  describe('find', function find() {
+    it("can reuse query option objects", function(done) {
+      this.User.create({ username: 'fnord' }).success(function() {
+        var query = { where: { username: 'fnord' }}
+
+        this.User.find(query).success(function(user) {
+          expect(user.username).toEqual('fnord')
+
+          this.User.find(query).success(function(user) {
+            expect(user.username).toEqual('fnord')
+            done()
+          }.bind(this))
         }.bind(this))
       }.bind(this))
     })
