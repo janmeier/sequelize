@@ -40,8 +40,7 @@ describe('Composite keys', function() {
       this.Article.hasOne(this.State, { foreignKey: { "story_id": "id", "type": {
         type: Sequelize.STRING,
         key: "item_key" 
-        }
-      }})
+      }}})
       
       this.Article.sync({ force: true }).success(function() {
         self.State.sync({ force: true }).success(done).error(function(err) {
@@ -125,7 +124,7 @@ describe('Composite keys', function() {
         })
       })
     })
-  }),
+  })
   
   describe('using hasMany', function() {
     before(function(done) {
@@ -169,8 +168,8 @@ describe('Composite keys', function() {
         })
         done()
       })
-    }),
-    
+    })
+
     describe('methods work as expected', function() {
       it('addLabel', function(done) {
         var self = this
@@ -232,8 +231,9 @@ describe('Composite keys', function() {
             })
           })
         })
-      }),
+      })
       
+      /*
       it('sets one label', function(done) {
         var self = this
         
@@ -260,8 +260,10 @@ describe('Composite keys', function() {
             })
           })
         })
-      }),
-      
+      })
+
+  */
+    /*  
       it('sets two labels', function(done) {
         var self = this
         
@@ -281,14 +283,13 @@ describe('Composite keys', function() {
                   art.getLabels().success(function(labels) {
                     expect(labels.length).toEqual(2)
                     expect(labels[0].text).toEqual(label1.text)
-                    
-                    
-                      art.setLabels([]).success(function() {
-                        art.getLabels().success(function(labels) {
-                          expect(labels.length).toEqual(0)
-                          done()
-                        })
+                                        
+                    art.setLabels([]).success(function() {
+                      art.getLabels().success(function(labels) {
+                        expect(labels.length).toEqual(0)
+                        done()
                       })
+                    })
                   })
                 })
               })
@@ -296,6 +297,8 @@ describe('Composite keys', function() {
           })
         })
       })
+
+  */
     })
   })
 })
