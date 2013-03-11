@@ -21,6 +21,13 @@
       "email": "jam@innofluence.com"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdepold/sequelize.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sdepold/sequelize/issues"
+  },
   "dependencies": {
     "mysql": "~2.0.0-alpha3",
     "mysql-libmysqlclient": "1.5.1",

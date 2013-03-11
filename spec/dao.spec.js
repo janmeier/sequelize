@@ -216,6 +216,63 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
     });
   });
 
+  describe('refresh', function () {
+    it("should return a reference to the same DAO instead of creating a new one", function (done) {
+      this.User.create({ username: 'John Doe' }).done(function (err, originalUser) {
+
+        originalUser.updateAttributes({ username: 'Doe John' }).done(function () {
+          originalUser.reload().done(function (err, updatedUser) {
+            expect(originalUser === updatedUser).toBeTrue()
+            done();
+          })
+        })
+      })
+    })
+
+    it("should update the values on all references to the DAO", function (done) {
+      var self = this
+
+      this.User.create({ username: 'John Doe' }).done(function (err, originalUser) {
+        self.User.find(originalUser.id).done(function (err, updater) {
+          updater.updateAttributes({ username: 'Doe John' }).done(function () {
+            // We used a different reference when calling updateAttributes, so originalUser is now out of sync
+            expect(originalUser.username).toEqual('John Doe')
+
+            originalUser.reload().done(function (err, updatedUser) {
+              expect(originalUser.username).toEqual('Doe John')
+              expect(updatedUser.username).toEqual('Doe John')
+
+              done();
+            })
+          })
+        })        
+      })
+    })
+
+    it("should update read only attributes as well (updatedAt)", function (done) {
+      var self = this
+      this.timeout = 2000;
+
+      this.User.create({ username: 'John Doe' }).done(function (err, originalUser) {
+        var originallyUpdatedAt = originalUser.updatedAt
+
+        // Wait for a second, so updatedAt will actually be different
+        setTimeout(function () {
+          self.User.find(originalUser.id).done(function (err, updater) {
+            updater.updateAttributes({ username: 'Doe John' }).done(function () {
+              originalUser.reload().done(function (err, updatedUser) {
+                expect(originalUser.updatedAt).toBeGreaterThan(originallyUpdatedAt)
+                expect(updatedUser.updatedAt).toBeGreaterThan(originallyUpdatedAt)
+
+                done();
+              })
+            })
+          })
+        }, 1000)
+      })
+    })
+  });
+
   describe('default values', function() {
     describe('current date', function() {
       it('should store a date in touchedAt', function() {
@@ -274,12 +331,14 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
         username: Helpers.Sequelize.STRING,
         age:      Helpers.Sequelize.INTEGER,
         isAdmin:  Helpers.Sequelize.BOOLEAN
-      }, {
-        timestamps: false,
-        logging: true
-      })
+      }, { timestamps: false })
 
-      this.User.sync({ force: true }).success(done)
+      this.Project = this.sequelize.define('NiceProject', { title: Helpers.Sequelize.STRING }, { timestamps: false })
+
+      this.User.hasMany(this.Project, { as: 'Projects' })
+      this.Project.belongsTo(this.User, { as: 'LovelyUser' })
+
+      this.sequelize.sync({ force: true }).success(done)
     })
 
     it('returns an object containing all values', function() {
@@ -295,6 +354,30 @@ describe(Helpers.getTestDialectTeaser("DAO"), function() {
     it('returns a response that can be stringified and then parsed', function() {
       var user = this.User.build({ username: 'test.user', age: 99, isAdmin: true })
       expect(JSON.parse(JSON.stringify(user))).toEqual({ username: 'test.user', age: 99, isAdmin: true, id: null })
+    })
+
+    it('includes the eagerly loaded associations', function(done) {
+      this.User.create({ username: 'fnord', age: 1, isAdmin: true }).success(function(user) {
+        this.Project.create({ title: 'fnord' }).success(function(project) {
+          user.setProjects([ project ]).success(function() {
+            this.User.findAll({include: [ { model: this.Project, as: 'Projects' } ]}).success(function(users) {
+              var _user = users[0]
+
+              expect(_user.projects).toBeDefined()
+              expect(JSON.parse(JSON.stringify(_user)).projects).toBeDefined()
+
+              this.Project.findAll({include: [ { model: this.User, as: 'LovelyUser' } ]}).success(function(projects) {
+                var _project = projects[0]
+
+                expect(_project.lovelyUser).toBeDefined()
+                expect(JSON.parse(JSON.stringify(_project)).lovelyUser).toBeDefined()
+
+                done()
+              })
+            }.bind(this))
+          }.bind(this))
+        }.bind(this))
+      }.bind(this))
     })
   })
 
