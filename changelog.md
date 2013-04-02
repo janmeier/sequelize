@@ -7,6 +7,7 @@
 - [REFACTORING] dropped support for synchronous migrations. added third parameter which needs to get called once the migration has been finished. also this adds support for asynchronous actions in migrations.
 - [OTHERS] code was formatted to fit the latest code style guidelines (thanks to durango)
 - [OTHERS] Explicitly target ./docs folder for generate-docs script. #444 (thanks to carsondarling)
+- [OTHERS] Overwrite existing daoFactoryDefinition if there already has been one. (thanks to robraux)
 - [BUG] fixed wrong version in sequelize binary
 - [BUG] local options have higher priority than global options (thanks to guersam)
 - [BUG] fixed where clause when passing an empty array (thanks to kbackowski)
@@ -14,6 +15,7 @@
 - [BUG] fixed the location of the foreign key when using belongsTo (thanks to ricardograca)
 - [BUG] don't return timestamps if only specific attributes have been seleceted (thanks to ricardograca)
 - [BUG] fixed removeColumn for sqlite
+- [BUG] fixed date equality check for instances. (thanks to solotimes)
 - [FEATURE] added association prefetching /eager loading for find and findAll. #465
 - [FEATURE] it's now possible to use callbacks of async functions inside migrations (thanks to mphilpot)
 - [FEATURE] improved comfort of sequelize.query. just pass an sql string to it and wait for the result
@@ -28,7 +30,7 @@
 - [FEATURE] added findOrCreate, which returns a the already existing instance or creates one (thanks to eveiga)
 - [FEATURE] minConnections option for MySQL pooling (thanks to dominiklessel)
 - [FEATURE] added BIGINT data type which is treated like a string (thanks to adamsch1)
-- [FEATURE] https://github.com/sdepold/sequelize/pull/345
+- [FEATURE] experimental support for read replication for mysql (thanks to Janzeh)
 - [FEATURE] allow definition of a models table name (thanks to slamkajs)
 - [FEATURE] allow usage of enums. #440 (thanks to KevinMartin)
 - [FEATURE] allows updateAttributes to target specific fields only (thanks to Pasvaz)
