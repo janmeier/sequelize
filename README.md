@@ -10,6 +10,7 @@ The Sequelize library provides easy access to MySQL, SQLite or PostgreSQL databa
 - Support for synchronous migrations has been dropped. `up` and `down` methods in migrations do have a third parameter which is the callback parameter. Pass an error or an error message as first parameter to the callback if something went wrong in the migration.
 
 ## Blogposts/Changes ##
+- [v1.6.0](http://blog.sequelizejs.com/post/46949108134/v1-6-0-eager-loading-support-for-enums-decimals-and) Eager loading, support for enums, decimals and bigint, performance improvements …
 - [v1.4.1](http://blog.sequelizejs.com/post/24403298792/changes-in-sequelize-1-4-1): deprecation of node < 0.6, logging customization, ...
 - [v1.4.0](http://blog.sequelizejs.com/post/24345409723/changes-in-sequelize-1-4-0): postgresql, connection pooling, ...
 - [v1.3.0](http://blog.depold.com/post/15283366633/changes-in-sequelize-1-3-0): migrations, cross-database, validations, new listener notation, ...
@@ -70,6 +71,7 @@ A very basic roadmap. Chances aren't too bad, that not mentioned things are impl
 ### 2.0.0
 - ~~save datetimes in UTC~~
 - encapsulate attributes if a dao inside the attributes property + add getters and setters
+
 
 ## Collaboration 2.0 ##
 
@@ -233,4 +235,4 @@ for (var key in obj) {
 The automated tests we talk about just so much are running on
 [Travis public CI](http://travis-ci.org), here is its status:
 
-[![Build Status](https://secure.travis-ci.org/sdepold/sequelize.png)](http://travis-ci.org/sdepold/sequelize)
+[![Build Status](https://secure.travis-ci.org/sequelize/sequelize.png)](http://travis-ci.org/sequelize/sequelize)
