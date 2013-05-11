@@ -35,7 +35,6 @@ describe(Helpers.getTestDialectTeaser("BelongsTo"), function() {
 
                 task.setUserXYZ(null).success(function() {
                   task.getUserXYZ().success(function(user) {
-                    //console.log(user);
                     expect(user).toEqual(null)
                     done()
                   })

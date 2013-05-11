@@ -31,6 +31,7 @@ var BusterHelpers = module.exports = {
     options.dialect = options.dialect || 'mysql'
     options.logging = (options.hasOwnProperty('logging') ? options.logging : false)
 
+    options.logging = true;
     var sequelizeOptions = {
       logging: options.logging,
       dialect: options.dialect,
