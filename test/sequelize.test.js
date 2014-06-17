@@ -219,6 +219,7 @@ describe(Support.getTestDialectTeaser("Sequelize"), function () {
     it('executes a query if only the sql is passed', function(done) {
       this.sequelize.query(this.insertQuery)
       .complete(function(err, result) {
+        console.log(arguments)
         expect(err).to.be.null
         expect(result).to.not.exist
         done()
