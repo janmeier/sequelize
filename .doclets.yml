@@ -1,2 +1,7 @@
 dir: lib
 packageJson: package.json
+branches:
+	- master
+	- janmaster
+articles:
+	- Getting started: docs/articles/getting-started.md
